@@ -1,5 +1,5 @@
 <?php
-$hostnom = 'host=btssio.dedyn.io';
+$hostnom = 'btssio.dedyn.io';
 $usernom = 'DELPIER';
 $password = '20050924';
 $bdd = 'DELPIER_biblio';
