@@ -1,22 +1,23 @@
 <?php 
     include "header.php";
     include "connexionPdo.php";
-    $libelle=$_POST['libelle'];
+    $num=$_GET['num'];
 
-    $req=$monPdo->prepare("insert into nationalite(libelle) value(:libelle)");
-    $req->bindParam(':libelle',$libelle);
-    $req->setFetchMode(PDO::FETCH_OBJ);
+    $req=$monPdo->prepare("delete from nationalite where num = :num");
+    $req->bindParam(':num',$num);
     $nb=$req->execute();
+
+
 echo '<div class="container" style="margin: 5% auto auto auto">';
 echo '<div class="row">
     <div class="col mt-3">';
 if($nb == 1){
     echo '<div class="alert alert-success" role="alert">
-    La nationalité a bien été ajoutée
+    La nationalité a bien été supprimée
     </div>';
 }else{
     echo '<div class="alert alert-danger" role="alert">
-    La nationalité n\'a pas été ajoutée §
+    Petit problème : La nationalité n\'a pas été supprimée
     </div>';
 }
 ?>
