@@ -6,11 +6,11 @@
     $texteReq="select n.num, n.libelle as 'libNation', c.libelle as 'libCont' from nationalite n, continent c where n.numContinent=c.num";
     if(!empty($_GET)){
       if($_GET['libelle'] != ""){$texteReq.= " and n.libelle like '%" .$_GET['libelle']."%'";}
-      if($_GET['libelle'] != ""){$texteReq.= " and n.libelle like '%" .$_GET['libelle']."%'";}
+      if($_GET['continent'] != "Tous"){$texteReq.= " and c.num =" .$_GET['continent'];}
     }
-
-
-    $req=$monPdo->prepare();
+    $texteReq.=" order by n.libelle";
+    var_dump($texteReq);
+    $req=$monPdo->prepare($texteReq);
     $req->setFetchMode(PDO::FETCH_OBJ);
     $req->execute();
     $lesNationalites=$req->fetchALL();
@@ -47,11 +47,12 @@
     <form action="" method="get" class="border border-primary rounded p-3" style="margin: 1% auto 1% auto">
       <div class="row">
         <div class="col">
-          <input type="text" class="form-control" id='libelle' placeholder="Saisir le libellé" name='libelle' value="<?php if($action == "Modifier"){ echo $laNationalite->libelle;} ?>">
+          <input type="text" class="form-control" id='libelle' placeholder="Saisir le libellé" name='libelle' value="<?php if(!empty($_GET)){echo $_GET['libelle'];}else echo ""; ?>">
         </div>
         <div class="col">
           <select name="continent" class="form-control">
             <?php
+              echo "<option value='Tous'>Tous les continents</option>";
               foreach($lesContinents as $continent){
                 $selection=$continent->num == $laNationalite->numContinent ? 'selected' : '';
                 echo "<option value='$continent->num' $selection>$continent->libelle</option>";
